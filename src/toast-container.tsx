@@ -4,7 +4,8 @@ import {
   ViewStyle,
   KeyboardAvoidingView,
   Platform,
-  Dimensions, SafeAreaView,
+  Dimensions,
+  SafeAreaView,
 } from "react-native";
 import Toast, { ToastOptions, ToastProps } from "./toast";
 
@@ -17,6 +18,10 @@ export interface Props extends ToastOptions {
   offsetTop?: number;
   offsetBottom?: number;
   swipeEnabled?: boolean;
+  ToastContainerWrapper?: {
+    component: React.ComponentType<any>;
+    props: any;
+  };
 }
 
 interface State {
@@ -107,7 +112,7 @@ class ToastContainer extends Component<Props, State> {
    */
   isOpen = (id: string) => {
     return this.state.toasts.some((t) => t.id === id && t.open);
-  }
+  };
 
   renderBottomToasts() {
     const { toasts } = this.state;
@@ -118,6 +123,7 @@ class ToastContainer extends Component<Props, State> {
       justifyContent: "flex-end",
       flexDirection: "column",
     };
+
     return (
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "position" : undefined}
@@ -132,7 +138,7 @@ class ToastContainer extends Component<Props, State> {
             ))}
         </SafeAreaView>
       </KeyboardAvoidingView>
-    );
+    )
   }
 
   renderTopToasts() {
@@ -193,7 +199,15 @@ class ToastContainer extends Component<Props, State> {
   }
 
   render() {
-    return (
+    const { ToastContainerWrapper } = this.props;
+
+    return ToastContainerWrapper ? (
+      <ToastContainerWrapper.component {...ToastContainerWrapper.props}>
+        {this.renderTopToasts()}
+        {this.renderBottomToasts()}
+        {this.renderCenterToasts()}
+      </ToastContainerWrapper.component>
+    ) : (
       <>
         {this.renderTopToasts()}
         {this.renderBottomToasts()}
@@ -211,8 +225,10 @@ const styles = StyleSheet.create({
     maxWidth: "100%",
     zIndex: 999999,
     elevation: 999999,
-    alignSelf: 'center',
-    ...(Platform.OS === "web" ? { overflow: "hidden", userSelect: 'none' } : null),
+    alignSelf: "center",
+    ...(Platform.OS === "web"
+      ? { overflow: "hidden", userSelect: "none" }
+      : null),
   },
   message: {
     color: "#333",
