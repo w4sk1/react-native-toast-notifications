@@ -139,6 +139,26 @@ You can implement your own custom types or overwrite the existing ones
 toast.show("Show custom toast", {data: { title: 'Toast title' }})
 ```
 
+### Custom toast container wrapper
+
+You can wrap a toast container with a custom wrapper.
+
+
+```js
+<ToastProvider
+    ToastContainerWrapper={{
+      component: FooComponent,
+      props: {style: { flex: 1}}
+    }}
+>
+...
+</>
+
+// In order to display a toast over a native-stack modal, use [FullWindowOverlay component](https://github.com/software-mansion/react-native-screens?tab=readme-ov-file#fullwindowoverlay).
+
+```
+
+
 ## FAQ
 
 ### - How to call toast outside React components?
