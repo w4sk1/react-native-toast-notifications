@@ -22,6 +22,7 @@ export interface Props extends ToastOptions {
     component: React.ComponentType<any>;
     props: any;
   };
+  containerStyle?: ViewStyle
 }
 
 interface State {
@@ -116,7 +117,7 @@ class ToastContainer extends Component<Props, State> {
 
   renderBottomToasts() {
     const { toasts } = this.state;
-    let { offset, offsetBottom } = this.props;
+    let { offset, offsetBottom, containerStyle } = this.props;
     let style: ViewStyle = {
       bottom: offsetBottom || offset,
       width: width,
@@ -127,7 +128,7 @@ class ToastContainer extends Component<Props, State> {
     return (
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "position" : undefined}
-        style={[styles.container, style]}
+        style={[styles.container, style, containerStyle]}
         pointerEvents="box-none"
       >
         <SafeAreaView>
@@ -143,7 +144,7 @@ class ToastContainer extends Component<Props, State> {
 
   renderTopToasts() {
     const { toasts } = this.state;
-    let { offset, offsetTop } = this.props;
+    let { offset, offsetTop, containerStyle } = this.props;
     let style: ViewStyle = {
       top: offsetTop || offset,
       width: width,
@@ -153,7 +154,7 @@ class ToastContainer extends Component<Props, State> {
     return (
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "position" : undefined}
-        style={[styles.container, style]}
+        style={[styles.container, style, containerStyle]}
         pointerEvents="box-none"
       >
         <SafeAreaView>
@@ -169,7 +170,7 @@ class ToastContainer extends Component<Props, State> {
 
   renderCenterToasts() {
     const { toasts } = this.state;
-    let { offset, offsetTop } = this.props;
+    let { offset, offsetTop, containerStyle } = this.props;
     let style: ViewStyle = {
       top: offsetTop || offset,
       height: height,
@@ -186,7 +187,7 @@ class ToastContainer extends Component<Props, State> {
     return (
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "position" : undefined}
-        style={[styles.container, style]}
+        style={[styles.container, style, containerStyle]}
         pointerEvents="box-none"
       >
         {toasts
